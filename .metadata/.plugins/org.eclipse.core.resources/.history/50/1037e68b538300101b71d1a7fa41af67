@@ -1,0 +1,42 @@
+package com.event.service;
+
+import org.springframework.stereotype.Service;
+
+import com.event.repository.EventRepository;
+
+import entity.Event;
+
+@Service
+public class EventService {
+	
+	
+	private EventRepository eventRepo;
+
+	public EventRepository getEventRepo() {
+		return eventRepo;
+	}
+
+	public void setEventRepo(EventRepository eventRepo) {
+		this.eventRepo = eventRepo;
+	}
+	
+	public Event newEvent(Event event) {
+		if(event != null) {
+			eventRepo.save(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Event details insufficeint");
+		}
+	}
+	
+	
+	public Event removeEvent(Event event) {
+		if(event !=null) {
+			eventRepo.delete(event);
+		}
+		else {
+			throw new RuntimeException("Error while removing event")
+		}
+	}
+}

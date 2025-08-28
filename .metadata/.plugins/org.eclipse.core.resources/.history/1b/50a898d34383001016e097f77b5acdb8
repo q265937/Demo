@@ -1,0 +1,18 @@
+package com.user.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.service.UserService;
+
+@RestController
+public class UserController {
+	
+	private UserService userServ;
+
+	public UserController(UserService userServ) {
+		super();
+		this.userServ = userServ;
+	}
+	
+	
+}

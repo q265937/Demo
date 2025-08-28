@@ -1,0 +1,21 @@
+package com.user.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.service.UserService;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+	
+	private UserService userServ;
+
+	public UserController(UserService userServ) {
+		this.userServ = userServ;
+	}
+	
+	@PostMapping()
+	
+}

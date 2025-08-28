@@ -1,0 +1,20 @@
+package com.booking.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.booking.service.BookingService;
+
+@RestController
+@RequestMapping("/booking")
+public class BookingController {
+	
+	private BookingService bookServ;
+
+	public BookingController(BookingService bookServ) {
+		super();
+		this.bookServ = bookServ;
+	}
+	
+	
+}

@@ -1,0 +1,18 @@
+package com.booking.service;
+
+import org.springframework.stereotype.Service;
+
+import com.booking.repository.BookingRepository;
+
+@Service
+public class BookingService {
+	
+	private BookingRepository bookRepo;
+
+	public BookingService(BookingRepository bookRepo) {
+		super();
+		this.bookRepo = bookRepo;
+	}
+	
+	
+}

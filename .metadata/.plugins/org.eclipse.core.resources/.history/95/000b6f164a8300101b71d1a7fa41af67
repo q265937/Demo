@@ -1,0 +1,36 @@
+package com.booking.service;
+
+import org.springframework.stereotype.Service;
+
+import com.booking.entity.Booking;
+import com.booking.repository.BookingRepository;
+
+@Service
+public class BookingService {
+	
+	private BookingRepository bookRepo;
+
+	public BookingService(BookingRepository bookRepo) {
+		this.bookRepo = bookRepo;
+	}
+	
+	public Booking newBooking(Booking booking) {
+		if(booking != null) {
+			bookRepo.save(booking);
+			return booking;
+		}else {
+			throw new RuntimeException("Booking data insufficient");
+		}
+	}
+	
+	public String deleteBooking(int bookingId) {
+		Booking booking = bookRepo.findById(bookingId);
+		if(booking != null) {
+			bookRepo.delete(booking);
+			return "Deleted successfully";
+		}else {
+			throw new RuntimeException("Error deleting data");
+		}
+	}
+	
+}

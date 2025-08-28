@@ -1,0 +1,38 @@
+package com.booking.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.booking.entity.Booking;
+import com.booking.repository.BookingRepository;
+
+@Service
+public class BookingService {
+	
+	private BookingRepository bookRepo;
+
+	public BookingService(BookingRepository bookRepo) {
+		this.bookRepo = bookRepo;
+	}
+	
+	public Booking newBooking(Booking booking) {
+		if(booking != null) {
+			bookRepo.save(booking);
+			return booking;
+		}else {
+			throw new RuntimeException("Booking data insufficient");
+		}
+	}
+	
+	public List<Booking> allBookings(){
+		List<Booking> all = bookRepo.findAll();
+		return all;
+	}
+	
+	public Booking findBooking(int bookingId) {
+		Booking booking = bookRepo.findById(bookingId).orElseThrow(() -> new RuntimeException("Did not find booking for ID " + bookingId));
+		return booking;
+	}
+	
+}

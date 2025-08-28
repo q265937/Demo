@@ -1,0 +1,26 @@
+package com.user.service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.user.entity.Role;
+
+import io.jsonwebtoken.Jwts;
+
+public class JwtService {
+	
+	private String secretKey = "M%3K-o^pM~Fm+7'N,v?`";
+	
+	public String generateToken(String username, Role role) {
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("role", role.name());
+		
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(username)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+				
+	}
+}

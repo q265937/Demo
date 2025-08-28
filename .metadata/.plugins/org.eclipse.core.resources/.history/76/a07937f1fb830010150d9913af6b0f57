@@ -1,0 +1,80 @@
+package com.user.service;
+
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.user.dto.UserDTO;
+import com.user.entity.Role;
+import com.user.entity.User;
+import com.user.repository.UserRepository;
+
+@Service
+public class UserService {
+	
+	private UserRepository userRepo;
+	private final JwtService jwtServ;
+	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authManager;
+	
+	public UserService(UserRepository userRepo, JwtService jwtServ, PasswordEncoder passwordEncoder,
+			AuthenticationManager authManager) {
+		this.userRepo = userRepo;
+		this.jwtServ = jwtServ;
+		this.passwordEncoder = passwordEncoder;
+		this.authManager = authManager;
+	}
+
+
+	public User register(User user) {
+		if(user != null) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setRole(Role.USER);
+			userRepo.save(user);
+			return user;
+		}else {
+			throw new RuntimeException("No or incomplete values");
+		}
+	}
+	
+	
+	public User login(UserDTO userDTO){
+
+		Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+		
+			
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		User user1 = userRepo.findByUsername(userDTO.getEmail()).orElseThrow(() -> new RuntimeException("Employee not found with given username"));
+			
+	    String token = jwtServ.generateToken(user1.getUsername(), user1.getRole());
+
+			
+	    return user1;
+	}
+	
+	public User findByUsername(String username) {
+		User u = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+		
+		return u;
+	}
+	
+	public String deleteUser(int id) {
+		User user = userRepo.findById(id).orElse(null);
+		
+		if(user != null) {
+			userRepo.delete(user);
+			return "Deleted user successfully";
+		}else {
+			throw new RuntimeException("Error deleting");
+		}
+		
+	}
+	
+}

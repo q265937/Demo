@@ -1,0 +1,86 @@
+package com.event.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.event.repository.EventRepository;
+
+import entity.Event;
+
+@Service
+public class EventService {
+	
+	
+	private EventRepository eventRepo;
+
+	
+	public EventService(EventRepository eventRepo) {
+		this.eventRepo = eventRepo;
+	}
+
+	public Event newEvent(Event event) {
+		if(event != null) {
+			eventRepo.save(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Event details insufficeint");
+		}
+	}
+	
+	public List<Event> allEvents() {
+		List<Event> allEvents = eventRepo.findAll();
+		return allEvents;
+	}
+	
+	
+	public Event removeEvent(int id) {
+		Event event = eventRepo.findById(id).orElse(null);
+		if(event !=null) {
+			eventRepo.delete(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Error while removing event");
+		}
+	}
+	
+	public Event findbyId(int id) {
+		Event event = eventRepo.findById(id).orElse(null);
+		if(event != null) {
+			return event;
+		}
+		else {
+			throw new RuntimeException("Could not find event by ID:"+id);
+		}
+	}
+	
+	
+	//TODO: filter by date, age, name , location
+	
+	public Event updateLocation(String location, int id) {
+		Event event = eventRepo.findById(id).orElse(null);
+		if(event != null) {
+			event.setLocation(location);
+			eventRepo.save(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Invalid Location");
+		}
+	}
+	
+	public Event updateDate(LocalDateTime date, int id) {
+		Event event = eventRepo.findById(id).orElse(null);
+		if(event != null) {
+			event.setEventDate(date);
+			eventRepo.save(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Invalid Location");
+		}
+	}
+}

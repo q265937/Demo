@@ -1,0 +1,37 @@
+package com.user.service;
+
+import org.springframework.stereotype.Service;
+
+import com.user.entity.User;
+import com.user.repository.UserRepository;
+
+@Service
+public class UserService {
+	
+	private UserRepository userRepo;
+
+	public UserService(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+	
+	public User register(User user) {
+		if(user != null) {
+			userRepo.save(user);
+			return user;
+		}else {
+			throw new RuntimeException("No or incomplete values");
+		}
+	}
+	
+	public String deleteUser(int id) {
+		User user = userRepo.findById(id).orElseThrow(new RuntimeException("Error deleting data"));
+		
+		if(user != null) {
+			userRepo.delete(user);
+			return user;
+		}else {
+			throw 
+		}
+	}
+	
+}
