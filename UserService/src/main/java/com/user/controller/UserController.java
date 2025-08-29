@@ -29,9 +29,8 @@ public class UserController {
 		return ResponseEntity.ok(result);
 	}
 	@PostMapping("/login")
-	public ResponseEntity<String> loginUser(@RequestBody UserDTO user){
-		String result = userServ.login(user);
-		return ResponseEntity.ok(result);
+	public ResponseEntity<?> loginUser(@RequestBody UserDTO user){
+		return ResponseEntity.ok(userServ.login(user));
 	}
 	
 	@GetMapping("/find/{username}")

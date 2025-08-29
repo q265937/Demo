@@ -46,23 +46,23 @@ public class UserService {
 	}
 	
 	
-	public String login(UserDTO userDTO){
+	public ResponseEntity<?> login(UserDTO userDTO){
 		try {
-			Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+			Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
 		
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			User user1 = userRepo.findByUsername(userDTO.getEmail()).orElseThrow(() -> new RuntimeException("Employee not found with given username"));
+			User user1 = userRepo.findByUsername(userDTO.getUsername()).orElseThrow(() -> new RuntimeException("Employee not found with given username"));
 			
-	        String token = jwtServ.generateToken(user1.getEmail(), user1.getRole());
+	        String token = jwtServ.generateToken(user1.getUsername(), user1.getRole());
 
 			
-	        return "did not login" ;
+	        return ResponseEntity.ok(Map.of("username: ", user1.getUsername(), "role: ", user1.getRole(), "token: ", token));
 		}
 		
 		catch(Exception e) {
 			e.getMessage();
-			return "login";
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error: ", "Invalid credentials"));
 		}
 	}
 	

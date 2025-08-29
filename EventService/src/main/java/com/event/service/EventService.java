@@ -82,4 +82,16 @@ public class EventService {
 			throw new RuntimeException("Invalid Location");
 		}
 	}
+	
+	public Event updateSeats(int id, int quantity) {
+		Event event = eventRepo.findById(id).orElse(null);
+		if(event != null) {
+			event.setNoOfSeats(event.getNoOfSeats() - quantity);;
+			eventRepo.save(event);
+			return event;
+		}
+		else {
+			throw new RuntimeException("Invalid Seats");
+		}
+	}
 }

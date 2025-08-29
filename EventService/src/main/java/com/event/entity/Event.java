@@ -2,6 +2,8 @@ package com.event.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class Event {
 	private String eventName;
 	private String location;
 	private int minAge;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime eventDate;
 	private int noOfSeats;
 	private double price;

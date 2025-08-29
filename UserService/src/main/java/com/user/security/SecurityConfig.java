@@ -38,7 +38,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/user/register/**").permitAll()
 						.requestMatchers("/user/login/**").permitAll()
-						.requestMatchers("/user/**").authenticated()
+						.requestMatchers("/user/**").permitAll()
 				)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authProvider())

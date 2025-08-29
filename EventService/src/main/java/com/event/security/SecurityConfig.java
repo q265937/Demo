@@ -1,4 +1,4 @@
-package com.event.security;
+	package com.event.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

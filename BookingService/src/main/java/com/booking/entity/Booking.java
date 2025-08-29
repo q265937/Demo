@@ -2,6 +2,8 @@ package com.booking.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +23,9 @@ public class Booking {
 	private int bookingId;
 	
 	private String eventName;
+	@DateTimeFormat(pattern = "yyyy-MM-dd") 
 	private LocalDateTime eventDateTime;
+	private String username;
 	private String location;
 	private int noOfSeats;
 	private String ageRating;
